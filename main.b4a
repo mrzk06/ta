@@ -1,0 +1,195 @@
+﻿Build1=Default,b4a.example
+File1=1.bal
+File10=icon_tw.png
+File11=informasi.bal
+File12=location_route.bal
+File13=radius.bal
+File14=report.bal
+File15=scroll.bal
+File16=search.bal
+File17=splash.bal
+File18=stillpicture.bal
+File19=vid.bal
+File2=a.png
+File3=about.bal
+File4=cam.bal
+File5=current_pos.bal
+File6=formreport.bal
+File7=gallery.bal
+File8=home.bal
+File9=homeket.bal
+FileGroup1=Default Group
+FileGroup10=Default Group
+FileGroup11=Default Group
+FileGroup12=Default Group
+FileGroup13=Default Group
+FileGroup14=Default Group
+FileGroup15=Default Group
+FileGroup16=Default Group
+FileGroup17=Default Group
+FileGroup18=Default Group
+FileGroup19=Default Group
+FileGroup2=Default Group
+FileGroup3=Default Group
+FileGroup4=Default Group
+FileGroup5=Default Group
+FileGroup6=Default Group
+FileGroup7=Default Group
+FileGroup8=Default Group
+FileGroup9=Default Group
+Group=Default Group
+IconFile=
+Library1=core
+Library10=webviewextras2
+Library11=flatbutton
+Library12=slidingpanels
+Library13=dateconvert
+Library14=dateutils
+Library15=persiandate
+Library16=edittextplus
+Library17=maskededittext
+Library18=acl
+Library19=runtimepermissions
+Library2=animationplus
+Library20=camera2
+Library21=javaobject
+Library22=phone
+Library23=ftp_auto
+Library24=okhttputils2
+Library25=okhttp
+Library3=googlemaps
+Library4=gps
+Library5=turngps
+Library6=httpserver
+Library7=json
+Library8=uploadfilephp
+Library9=webviewextras
+ManifestCode='This code will be applied to the manifest file during compilation.~\n~'You do not need to modify it in most cases.~\n~'See this link for for more information: https://www.b4x.com/forum/showthread.php?p=78136~\n~AddManifestText(~\n~android:name="com.google.android.maps.v2.API_KEY"~\n~  android:value="AIzaSyBfPEyzhE27TUrMGysLGQDVvXzqldt56bw"/>~\n~<uses-sdk android:minSdkVersion="4" android:targetSdkVersion="28"/>~\n~<supports-screens android:largeScreens="true"~\n~    android:normalScreens="true"~\n~    android:smallScreens="true"~\n~    android:anyDensity="true"/>)~\n~SetApplicationAttribute(android:icon, "@drawable/icon")~\n~SetApplicationAttribute(android:label, "$LABEL$")~\n~'End of default text.~\n~~\n~'End of default text.~\n~
+Module1=Starter
+Module10=takevid
+Module11=scrollview
+Module2=current_pos
+Module3=pencarian
+Module4=report
+Module5=radius
+Module6=informasi
+Module7=location_route
+Module8=gallery
+Module9=takecam
+NumberOfFiles=19
+NumberOfLibraries=25
+NumberOfModules=11
+Version=8
+@EndOfDesignText@
+#Region  Project Attributes 
+	#ApplicationLabel: GIS Natural Disaster
+	#VersionCode: 5
+	#VersionName: Beta
+	'SupportedOrientations possible values: unspecified, landscape or portrait.
+	#SupportedOrientations: unspecified
+	#CanInstallToExternalStorage: True
+	#BridgeLogger: True
+#End Region
+
+#Region  Activity Attributes 
+	#FullScreen: True
+	#IncludeTitle: False
+#End Region
+
+Sub Process_Globals
+	'These global variables wil5l be declared once when the application starts.
+	'These variables can be accessed from all modules.
+	'Dim Server="http://192.168.1.32/tourism_bkt/t2-eng/mobile/" As String 'variable untuk koneksi ke database
+	Dim Server="http://gisnaturaldisaster.herokuapp.com/mobile/" As String
+	'Dim Server="http://192.168.137.1/disaster/mobile/" As String
+	'SplasScreen
+	Dim tmSplash As Timer 'timer untuk animasi splash screen
+End Sub
+
+Sub Globals
+	'These global variables will be redeclared each time the activity is created.
+	'These variables can only be accessed from this module.
+
+	
+	Private ImageView1 As ImageView
+	Public btAnim As AnimationPlus  'animasi object button view
+	Private Button1 As Button
+	Private Button2 As Button
+	Private Button3 As Button
+	Private Button4 As Button
+	Private Button5 As Button
+	Private Panel1 As Panel
+	Private ImageView2 As ImageView
+	Private about As TabHost
+	Private ScrollView1 As ScrollView
+End Sub
+
+Sub Activity_Create(FirstTime As Boolean)
+	'Do not forget to load the layout file created with the visual designer. For example:
+	If FirstTime Then 'jika aplikasi pertama diaktifkan
+		Activity.LoadLayout("splash")
+		AnimSplash 'Panggil function animasi splash screen
+		tmSplash.Initialize("tmSplash",3500) 'panggil event timer tpSplash dengan interval waktu 4s
+		tmSplash.Enabled = True 'aktifkan timer
+	Else
+		Activity.RemoveAllViews 'Hapus Design pada layout
+		Activity.LoadLayout("home") 'Set layout lyHome
+		'DoEvents 'membuat proses terlihat
+		ScrollView1.Panel.LoadLayout("homeket")
+		about.Initialize("about")
+		about.AddTab("Home","scroll.bal")
+		about.AddTab("About","about.bal")
+	End If
+	
+End Sub
+
+Sub Activity_Resume
+
+End Sub
+
+Sub Activity_Pause (UserClosed As Boolean)
+
+End Sub
+
+Sub tmSplash_Tick
+	tmSplash.Enabled = False 'disable timer
+	Activity.RemoveAllViews 'Hapus Design pada layout
+	Activity.LoadLayout("home") 'load layout lyHome
+	about.AddTab("Home","scroll.bal")
+	about.AddTab("About","about.bal")
+	
+	ScrollView1.Panel.LoadLayout("homeket")
+End Sub
+
+Sub AnimSplash()
+	If btAnim.IsInitialized Then
+		btAnim.Stop(ImageView1)
+		Activity.Invalidate
+	End If
+	btAnim.InitializeTranslate( "AllFunction.btAnim",0,-Activity.Height,0dip,0dip) 'animasi geser
+	btAnim.SetInterpolator(btAnim.INTERPOLATOR_BOUNCE) 'Animasi melantuk setlah sampai di posisi target
+	btAnim.Duration = 1500
+	btAnim.Start(ImageView1)	'Jlaankan animasi pada object imgSplash
+End Sub
+
+Sub Button1_Click
+	
+End Sub
+Sub Button2_Click
+	StartActivity(current_pos)
+End Sub
+Sub Button3_Click
+	StartActivity(pencarian)
+End Sub
+Sub Button4_Click
+	StartActivity(report)
+End Sub
+Sub Button5_Click
+	StartActivity(radius)
+End Sub
+
+
+
+Sub about_Click
+	
+End Sub
